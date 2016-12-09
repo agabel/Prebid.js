@@ -4,6 +4,7 @@ import {getPriceBucketString} from './cpmBucketManager';
 var CONSTANTS = require('./constants.json');
 var utils = require('./utils.js');
 var events = require('./events');
+var sizemapping = require('./sizeMapping.js');
 
 var objectType_function = 'function';
 
@@ -139,7 +140,9 @@ exports.addBidResponse = function (adUnitCode, bid) {
       bid.adserverTargeting = keyValues;
     }
 
-    $$PREBID_GLOBAL$$._bidsReceived.push(bid);
+    if (sizemapping.validateSizeMapping(bid, adUnitCode)) {
+      $$PREBID_GLOBAL$$._bidsReceived.push(bid);
+    }
   }
 
   if (bid && bid.adUnitCode && bidsBackAdUnit(bid.adUnitCode)) {

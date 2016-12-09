@@ -42,6 +42,16 @@ function isSizeMappingValid(sizeMapping) {
   return false;
 }
 
+function validateSizeMapping(bid, adUnitCode) {
+  let adUnit = $$PREBID_GLOBAL$$.adUnits.find(function (adUnit) {
+    return adUnit.code === adUnitCode;
+  });
+  let validSizes = mapSizes(adUnit);
+  return validSizes.filter(function(size) {
+    return bid.width === size[0] && bid.height === size[1];
+  }).length > 0;
+}
+
 function getScreenWidth(win) {
   var w = win || _win || window;
   var d = w.document;
@@ -62,4 +72,4 @@ function setWindow(win) {
   _win = win;
 }
 
-export { mapSizes, getScreenWidth, setWindow };
+export { mapSizes, validateSizeMapping, getScreenWidth, setWindow };
