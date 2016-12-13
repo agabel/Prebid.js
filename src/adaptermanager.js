@@ -25,6 +25,13 @@ function getBids({bidderCode, requestId, bidderRequestId, adUnits}) {
             return '';
           }
           sizes = sizeMapping;
+          if (utils.isArray(bid.tagSize) && bid.tagSize.length === 2) {
+            if (sizes.filter(function(size) {
+              return size[0] === bid.tagSize[0] && size[1] === bid.tagSize[1];
+            }).length === 0) {
+              return '';
+            }
+          }
         }
         return Object.assign(bid, {
           placementCode: adUnit.code,
